@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="hi"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Tatva Lead CRM</title>
+<style>
+:root{--bg:#f4f7f4;--card:#fff;--tx:#10301f;--mu:#5a6f61;--bd:#d9e4dc;--g:#1d7a3c;--gd:#0e3d21;--ac:#e5f2e8;--rd:#c0392b;--am:#b7791f;--on:#fff;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0d1510;--card:#15201a;--tx:#e5eee7;--mu:#92a99a;--bd:#25332a;--g:#4cc472;--gd:#9be3b2;--ac:#1b2c21;--rd:#ff7b6b;--am:#f0b64d;--on:#08210f}}
+:root[data-theme="dark"]{--bg:#0d1510;--card:#15201a;--tx:#e5eee7;--mu:#92a99a;--bd:#25332a;--g:#4cc472;--gd:#9be3b2;--ac:#1b2c21;--rd:#ff7b6b;--am:#f0b64d;--on:#08210f}
+#ts{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(20px + env(safe-area-inset-bottom,0px));background:var(--gd);color:var(--bg);padding:8px 14px;border-radius:8px;z-index:50;display:none;max-width:90%}
+*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.5 "Noto Sans Devanagari","Segoe UI",system-ui,sans-serif}
+header{display:flex;align-items:center;gap:12px;padding:14px 18px;flex-wrap:wrap}
+.logo{width:30px;height:30px;border-radius:50%;background:conic-gradient(var(--g) 0 25%,var(--gd) 0 50%,var(--g) 0 75%,var(--gd) 0)}
+h1{font-size:18px;margin:0;color:var(--gd);letter-spacing:.02em}
+nav{display:flex;gap:4px;flex-wrap:wrap;margin-left:auto}
+button,select,input,textarea{font:inherit;color:var(--tx)}
+.nb,.b{border:1px solid var(--bd);background:var(--card);padding:6px 12px;border-radius:8px;cursor:pointer}
+.nb.on,.b.p{background:var(--g);border-color:var(--g);color:var(--on)}
+.b.s{padding:3px 9px;font-size:13px}
+main{padding:0 18px 40px;max-width:1280px;margin:auto}
+.kp{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:16px}
+.k{background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:12px 14px}
+.k b{font-size:24px;display:block;color:var(--gd)}.k span{color:var(--mu);font-size:13px}
+.box{background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:14px;margin-bottom:14px}
+.box h3{margin:0 0 10px;font-size:15px}
+.bar{display:flex;align-items:center;gap:8px;margin:5px 0;font-size:13px}.bar i{display:block;height:14px;background:var(--g);border-radius:4px;min-width:3px}.bar em{width:110px;font-style:normal;color:var(--mu)}
+.tw{overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:14px}th,td{text-align:left;padding:7px 8px;border-bottom:1px solid var(--bd);white-space:nowrap}th{color:var(--mu);font-weight:500}
+.board{display:flex;gap:10px;overflow-x:auto;padding-bottom:10px;align-items:flex-start}
+.col{min-width:210px;width:210px;background:var(--ac);border-radius:10px;padding:8px}
+.col h4{margin:2px 4px 8px;font-size:13px;display:flex;justify-content:space-between}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:8px;padding:9px 10px;margin-bottom:7px;cursor:pointer}
+.card b{display:block}.card small{color:var(--mu)}
+.tag{display:inline-block;font-size:12px;padding:1px 7px;border-radius:99px;background:var(--ac);color:var(--gd)}
+.late{color:var(--rd)}
+#dr{position:fixed;inset:0;background:rgba(0,0,0,.45);display:none;justify-content:flex-end;z-index:20}
+#dr.on{display:flex}
+.pn{background:var(--bg);width:min(560px,100%);height:100%;overflow-y:auto;padding:16px;padding-top:calc(16px + env(safe-area-inset-top,0px))}
+.tabs{display:flex;gap:4px;flex-wrap:wrap;margin:10px 0}
+label{display:block;font-size:13px;color:var(--mu);margin:8px 0 3px}
+input,select,textarea{width:100%;padding:7px 9px;border:1px solid var(--bd);border-radius:8px;background:var(--card)}
+.r2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:6px 0}
+.li{padding:6px 0;border-bottom:1px solid var(--bd);font-size:14px}.li small{color:var(--mu);display:block}
+a{color:var(--g)}
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,.card:focus-visible{outline:2px solid var(--g);outline-offset:2px}
+@media(max-width:560px){.r2{grid-template-columns:1fr}}
+</style></head><body>
+<header><div class="logo"></div><h1>TATVA CRM</h1><nav id="nav"></nav></header>
+<main id="m"></main>
+<div id="dr"><div class="pn" id="pn"></div></div>
+<div id="ts" role="status"></div>
+<script>
+const ST=['New lead','Contacted','Call booked','Call done','Audit ready','Proposal sent','Won','Lost'];
+const PLANS={'Start (3 months)':20000,'Start (1 year)':80000,'Advance (1 year)':150000,'Growth':200000};
+const PROB=['Not enough leads','Poor lead quality','Low conversion','No follow-up system','Weak pricing/offer','Team/operations'];
+let S={leads:[],tab:'dash',open:null,dt:'ov',seg:'0'};
+const uid=()=>Math.random().toString(36).slice(2,9),now=()=>new Date().toISOString();
+const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const fd=x=>x?new Date(x).toLocaleString('en-IN',{dateStyle:'medium',timeStyle:'short'}):'';
+const inr=n=>'₹'+Number(n).toLocaleString('en-IN');
+const $=id=>document.getElementById(id);
+function save(){try{localStorage.setItem('tatva_crm',JSON.stringify(S.leads))}catch(e){}}
+function load(){try{S.leads=JSON.parse(localStorage.getItem('tatva_crm')||'[]')}catch(e){S.leads=[]}
+ if(!S.leads.length){[['Rahul Verma','9876500011','Verma IAS Academy','Jaipur','50 lakh - 1 crore','Meta · Lead quality'],['Neha Singh','9876500022','Edge JEE Classes','Kota','1 - 2 crore','Meta · Follow-up system'],['Amit Joshi','9876500033','Sunrise Coaching','Indore','Under 50 lakh','Meta · Not enough leads']].forEach((a,i)=>{addLead({name:a[0],phone:a[1],inst:a[2],city:a[3],turnover:a[4],campaign:a[5]},'Meta Lead Ad',true);if(i==1)setStage(S.leads[0],2,true)});save()}}
+function find(id){return S.leads.find(l=>l.id==id)}
+function log(l,t){l.log.unshift({t,at:now()})}
+function addTask(l,t,hrs){l.tasks.push({t,due:new Date(Date.now()+hrs*36e5).toISOString(),done:false})}
+function addLead(d,src,quiet){const l={id:uid(),name:d.name,phone:d.phone,inst:d.inst||'',city:d.city||'',turnover:d.turnover||'',campaign:d.campaign||'Direct',source:src,stage:0,created:now(),log:[],tasks:[],diag:{},meeting:'',invoices:[]};
+ log(l,'Captured from '+src);log(l,'WhatsApp welcome message queued');addTask(l,'Call the lead within 1 hour',1);S.leads.unshift(l);if(!quiet){save();render()}return l}
+function setStage(l,i,quiet){l.stage=i;log(l,'Stage → '+ST[i]);
+ if(i==3)addTask(l,'Prepare diagnosis audit report',24);
+ if(i==4)addTask(l,'Present audit and recommend a plan',24);
+ if(i==5){addTask(l,'Follow up on proposal',48);addTask(l,'Second follow-up on proposal',120)}
+ if(!quiet){save();render()}}
+function render(){
+ $('nav').innerHTML=[['dash','Dashboard'],['pipe','Pipeline'],['fu','Follow-ups'],['rt','Retargeting'],['set','Connect Meta'],['bk','Backup']].map(a=>`<button class="nb ${S.tab==a[0]?'on':''}" onclick="S.tab='${a[0]}';render()">${a[1]}</button>`).join('')+`<button class="b p" onclick="addForm()">+ Add lead</button>`;
+ $('m').innerHTML=({dash,pipe,fu,rt,set,bk})[S.tab]();drawer()}
+function dash(){const L=S.leads,w=Date.now()-7*864e5,paid=L.flatMap(l=>l.invoices).filter(i=>i.paid).reduce((a,i)=>a+i.total,0);
+ const calls=L.filter(l=>l.stage>=2&&l.stage!=7).length,won=L.filter(l=>l.stage==6).length,mx=Math.max(1,...ST.map((s,i)=>L.filter(l=>l.stage==i).length));
+ const camps={};L.forEach(l=>{const c=camps[l.campaign]=camps[l.campaign]||{n:0,c:0,w:0};c.n++;if(l.stage>=2&&l.stage!=7)c.c++;if(l.stage==6)c.w++});
+ return `<div class="kp"><div class="k"><b>${L.length}</b><span>Total leads</span></div><div class="k"><b>${L.filter(l=>new Date(l.created)>w).length}</b><span>New this week</span></div><div class="k"><b>${calls}</b><span>Calls booked or done</span></div><div class="k"><b>${won}</b><span>Clients won</span></div><div class="k"><b>${L.length?Math.round(won/L.length*100):0}%</b><span>Lead to client</span></div><div class="k"><b>${inr(paid)}</b><span>Payments received</span></div></div>
+ <div class="box"><h3>Funnel</h3>${ST.map((s,i)=>{const n=L.filter(l=>l.stage==i).length;return `<div class="bar"><em>${s}</em><i style="width:${n/mx*60}%"></i>${n}</div>`}).join('')}</div>
+ <div class="box"><h3>Which ad is working</h3><div class="tw"><table><tr><th>Campaign</th><th>Leads</th><th>Calls</th><th>Won</th></tr>${Object.keys(camps).map(k=>`<tr><td>${esc(k)}</td><td>${camps[k].n}</td><td>${camps[k].c}</td><td>${camps[k].w}</td></tr>`).join('')}</table></div></div>`}
+function pipe(){return `<input placeholder="Search name, institute, phone or ad" value="${esc(S.q)}" oninput="S.q=this.value;$('bd').innerHTML=board()" style="margin-bottom:10px"><div id="bd">${board()}</div>`}
+function board(){const q=(S.q||'').toLowerCase();return `<div class="board">${ST.map((s,i)=>{const c=S.leads.filter(l=>l.stage==i&&(!q||(l.name+l.inst+l.phone+l.campaign).toLowerCase().includes(q)));return `<div class="col"><h4>${s}<span>${c.length}</span></h4>${c.map(l=>`<div class="card" tabindex="0" onclick="openL('${l.id}')" onkeydown="if(event.key=='Enter')openL('${l.id}')"><b>${esc(l.name)}</b><small>${esc(l.inst)}${l.city?', '+esc(l.city):''}</small><br><span class="tag">${esc(l.campaign)}</span></div>`).join('')}</div>`}).join('')}</div>`}
+function fu(){const t=S.leads.flatMap(l=>l.tasks.map((k,i)=>({l,k,i}))).filter(x=>!x.k.done).sort((a,b)=>new Date(a.k.due)-new Date(b.k.due));
+ return `<div class="box"><h3>Today’s work (${t.length})</h3>${t.length?t.map(x=>`<div class="li"><div class="row"><input type="checkbox" style="width:auto" onchange="doneT('${x.l.id}',${x.i})"><b>${esc(x.k.t)}</b></div><small class="${new Date(x.k.due)<new Date()?'late':''}">${esc(x.l.name)} · due ${fd(x.k.due)}${new Date(x.k.due)<new Date()?' (overdue)':''} · <a href="#" onclick="openL('${x.l.id}');return false">open lead</a></small></div>`).join(''):'<p>No pending tasks. New leads create tasks automatically.</p>'}</div>`}
+function doneT(id,i){const l=find(id);l.tasks[i].done=true;log(l,'Task done: '+l.tasks[i].t);save();render()}
+function rt(){const L=S.leads.filter(l=>l.stage==S.seg);const csv='phone,fn\n'+L.map(l=>'91'+l.phone.replace(/\D/g,'').slice(-10)+','+l.name.split(' ')[0]).join('\n');
+ return `<div class="box"><h3>Retargeting audience</h3><p>Pick a stage, copy the list, and upload it in Meta Ads Manager as a Custom Audience.</p><div class="r2"><select onchange="S.seg=this.value;render()">${ST.map((s,i)=>`<option value="${i}" ${S.seg==i?'selected':''}>${s}</option>`).join('')}</select><span>${L.length} leads</span></div><label>Audience list (CSV)</label><textarea rows="8" readonly onclick="this.select()">${esc(csv)}</textarea><p style="color:var(--mu);font-size:13px">Ideas: “Call booked” but not done → reminder ad. “Proposal sent” → testimonial ad. “Lost” → new offer after 30 days.</p></div>`}
+function set(){return `<div class="box"><h3>Connect Meta Lead Ads (live)</h3><p>This page is the working CRM front end. Leads and data stay in this browser only. To get leads from Meta automatically you need a small server:</p>
+<div class="li"><b>1. Webhook</b><small>Meta app → Webhooks → <i>leadgen</i> → your URL, e.g. /meta-webhook</small></div>
+<div class="li"><b>2. Fetch the lead</b><small>Server calls the Graph API with the leadgen ID and reads name, phone, ad and campaign.</small></div>
+<div class="li"><b>3. Save and trigger</b><small>Insert in the database, create the call task, send the WhatsApp welcome through WhatsApp Cloud API.</small></div>
+<div class="li"><b>4. Send results back</b><small>Conversions API sends “call booked” and “won” events so Meta finds better leads.</small></div>
+<div class="li"><b>5. Payments</b><small>Razorpay payment links; a webhook marks the invoice paid and moves the lead to Won.</small></div><div class="li"><b>6. Calendar</b><small>Google Calendar API creates the event with a Meet link; or Cal.com/Calendly sends a webhook when a lead books, moving the lead to Call booked.</small></div><div class="li"><b>7. Other marketing tools</b><small>Two doors: an inbound API (Zapier, Make or n8n posts a lead into the CRM) and outbound webhooks (the CRM posts events such as “call booked” or “won” to them).</small></div>
+<p>Test the flow here:</p><button class="b p" onclick="sim()">Simulate a Meta lead</button></div>`}
+function sim(){const n=['Priya Sharma','Karan Mehta','Sana Khan','Vikas Gupta','Anita Rao'],i=['Pinnacle Classes','Toppers Academy','Gurukul Institute','Nova Coaching'],c=['Jaipur','Delhi','Lucknow','Pune','Patna'],cp=['Meta · Lead quality','Meta · Follow-up system','Meta · Low conversion','Meta · Not enough leads'],r=a=>a[Math.floor(Math.random()*a.length)];
+ addLead({name:r(n),phone:'9'+String(Math.floor(Math.random()*1e9)).padStart(9,'0'),inst:r(i),city:r(c),turnover:r(['Under 50 lakh','50 lakh - 1 crore','1 - 2 crore']),campaign:r(cp)},'Meta Lead Ad');S.tab='pipe';render()}
+function addForm(){S.open='new';$('dr').classList.add('on');$('pn').innerHTML=`<div class="row"><b>New lead</b><button class="b s" style="margin-left:auto" onclick="closeD()">Close</button></div>
+<label>Name</label><input id="f1"><label>WhatsApp number</label><input id="f2" inputmode="tel"><label>Institute</label><input id="f3"><div class="r2"><div><label>City</label><input id="f4"></div><div><label>Source</label><select id="f5"><option>Meta Lead Ad</option><option>Landing page</option><option>Referral</option><option>Manual</option></select></div></div><div class="row"><button class="b p" onclick="saveNew()">Save lead</button></div>`}
+function toast(t){const e=$('ts');e.textContent=t;e.style.display='block';clearTimeout(window._t);window._t=setTimeout(()=>e.style.display='none',2800)}
+function saveNew(){const n=$('f1').value.trim(),p=$('f2').value.replace(/\D/g,'').slice(-10);if(!n){toast('Enter the name');return}if(p.length!=10){toast('Enter a 10-digit mobile number');return}const x=S.leads.find(l=>l.phone.replace(/\D/g,'').slice(-10)==p);if(x){toast('This number already exists: '+x.name);openL(x.id);return}addLead({name:n,phone:p,inst:$('f3').value,city:$('f4').value,campaign:'Direct'},$('f5').value);closeD()}
+function delL(id){if(S.del!=id){S.del=id;toast('Tap Delete again to confirm');render();return}S.leads=S.leads.filter(l=>l.id!=id);S.del=null;save();closeD()}
+function csvRows(t){const d=t.indexOf('\t')>-1?'\t':',';return t.trim().split(/\r?\n/).map(r=>{const o=[];let c='',q=false;for(const ch of r){if(ch=='"')q=!q;else if(ch==d&&!q){o.push(c);c=''}else c+=ch}o.push(c);return o.map(s=>s.trim())})}
+function impCsv(){const R=csvRows($('csv').value||'');if(R.length<2){toast('Paste the CSV with its header row');return}const H=R[0].map(h=>h.toLowerCase().replace(/[^a-z]/g,'')),g=(r,ks)=>{for(const k of ks){const i=H.indexOf(k);if(i>-1&&r[i])return r[i]}return ''};let n=0,sk=0;R.slice(1).forEach(r=>{const p=g(r,['phonenumber','phone','mobile','mobilenumber']).replace(/\D/g,'').slice(-10),nm=g(r,['fullname','name'])||(g(r,['firstname'])+' '+g(r,['lastname'])).trim();if(!nm||p.length!=10||S.leads.some(l=>l.phone.replace(/\D/g,'').slice(-10)==p)){sk++;return}addLead({name:nm,phone:p,inst:g(r,['companyname','institutename','institute']),city:g(r,['city']),campaign:'Meta · '+(g(r,['campaignname','adname'])||'CSV')},'Meta CSV',true);n++});save();toast(n+' leads imported, '+sk+' skipped');render()}
+function gcal(l){const s=new Date(l.meeting),e=new Date(s.getTime()+36e5),f=d=>d.toISOString().replace(/[-:]|\.\d{3}/g,'');return 'https://calendar.google.com/calendar/render?action=TEMPLATE&text='+encodeURIComponent('Tatva diagnostic call: '+l.name)+'&dates='+f(s)+'/'+f(e)+'&details='+encodeURIComponent((l.inst||'')+' | '+l.phone)}
+function bk(){return `<div class="box"><h3>Import leads from Meta (CSV)</h3><p>Ads Manager → Leads → Download. Open the file, copy everything including the header row, and paste it here. Duplicate numbers are skipped.</p><textarea id="csv" rows="5"></textarea><div class="row"><button class="b p" onclick="impCsv()">Import leads</button></div></div><div class="box"><h3>Backup and restore</h3><p>Your data lives only in this browser. Copy this text and keep it safe (Notes or Drive). To restore on another device, or after the browser is cleared, paste it here and press Restore.</p><textarea id="bkt" rows="8" onclick="this.select()">${esc(JSON.stringify(S.leads))}</textarea><div class="row"><button class="b p" onclick="restore()">Restore from the text above</button></div></div>`}
+function restore(){try{const a=JSON.parse($('bkt').value);if(!Array.isArray(a))throw 0;S.leads=a.filter(l=>l&&l.id&&l.name).map(l=>Object.assign({log:[],tasks:[],diag:{},invoices:[],stage:0,phone:'',campaign:'Direct',source:'Imported'},l));save();toast('Restored '+S.leads.length+' leads');render()}catch(e){toast('That text is not a valid backup')}}
+function openL(id){S.open=id;S.dt='ov';$('dr').classList.add('on');render()}
+function closeD(){S.open=null;S.del=null;$('dr').classList.remove('on');render()}
+$('dr').addEventListener('click',e=>{if(e.target.id=='dr')closeD()});
+document.addEventListener('keydown',e=>{if(e.key=='Escape'&&S.open)closeD()});
+function wam(l,k){const f=l.name.split(' ')[0],T={welcome:`Namaste ${f}, Tatva Consulting se. Aapki ${l.inst||'institute'} ki growth query mili. Kya hum 15 minute baat kar sakte hain?`,book:`${f}, aap apna diagnostic call yahan book kar sakte hain. Humne aapke institute ke liye ek slot hold kiya hai.`,remind:`Reminder: ${f}, aapki Tatva diagnostic call ${l.meeting?fd(l.meeting):'jald'} par hai. Meet link calendar me bheja gaya hai.`,follow:`${f}, aapka audit aur plan share kiya tha. Koi sawal ho to batayein, main call par samjha sakta hoon.`};
+ return 'https://wa.me/91'+l.phone.replace(/\D/g,'').slice(-10)+'?text='+encodeURIComponent(T[k])}
+function setD(k,v){const l=find(S.open);l.diag[k]=v;save()}
+function drawer(){if(S.open==null||S.open=='new')return;const l=find(S.open);if(!l)return;const D=l.diag,T=[['ov','Overview'],['dg','Diagnosis'],['mt','Meeting'],['wa','WhatsApp'],['iv','Invoice'],['tl','Timeline']];let b='';
+ if(S.dt=='ov')b=`<label>Stage</label><select onchange="setStage(find('${l.id}'),+this.value)">${ST.map((s,i)=>`<option value="${i}" ${l.stage==i?'selected':''}>${s}</option>`).join('')}</select>${l.stage==7?`<label>Why was it lost?</label><select onchange="find('${l.id}').lost=this.value;save()"><option></option>${['Price too high','No response','Chose competitor','Not now','Other'].map(o=>`<option ${l.lost==o?'selected':''}>${o}</option>`).join('')}</select>`:''}<div class="li"><b>Phone</b><small>${esc(l.phone)} · <a href="tel:${esc(l.phone)}">Call</a></small></div><div class="li"><b>Source and ad</b><small>${esc(l.source)} · ${esc(l.campaign)}</small></div><div class="li"><b>Turnover</b><small>${esc(l.turnover||'Not asked yet')}</small></div><label>Add a task</label><div class="row"><input id="tt" placeholder="e.g. Send case study" style="flex:1"><select id="th" style="width:auto"><option value="2">2 hours</option><option value="24">1 day</option><option value="72">3 days</option></select><button class="b" onclick="newT()">Add</button></div>${l.tasks.filter(t=>!t.done).map(t=>`<div class="li">${esc(t.t)}<small>due ${fd(t.due)}</small></div>`).join('')}<div class="row"><button class="b s" onclick="delL('${l.id}')">${S.del==l.id?'Tap again to delete':'Delete lead'}</button></div>`;
+ if(S.dt=='dg')b=`<div class="r2"><div><label>Turnover</label><select onchange="setD('to',this.value)">${['','Under 50 lakh','50 lakh - 1 crore','1 - 2 crore','Above 2 crore'].map(o=>`<option ${D.to==o?'selected':''}>${o}</option>`).join('')}</select></div><div><label>Team size</label><input value="${esc(D.team)}" oninput="setD('team',this.value)"></div><div><label>Leads per month</label><input value="${esc(D.lpm)}" oninput="setD('lpm',this.value)"></div><div><label>Conversion %</label><input value="${esc(D.cv)}" oninput="setD('cv',this.value)"></div><div><label>Average fee (₹)</label><input value="${esc(D.fee)}" oninput="setD('fee',this.value)"></div><div><label>Score (1-10)</label><input type="number" min="1" max="10" value="${esc(D.sc)}" oninput="setD('sc',this.value)"></div></div><label>Main problem</label><select onchange="setD('pr',this.value)"><option></option>${PROB.map(o=>`<option ${D.pr==o?'selected':''}>${o}</option>`).join('')}</select><label>Audit notes and recommendation</label><textarea rows="6" oninput="setD('nt',this.value)">${esc(D.nt)}</textarea>`;
+ if(S.dt=='mt')b=`<label>Diagnostic call date and time</label><div class="row"><input type="datetime-local" id="mtv" value="${esc(l.meeting)}" style="flex:1"><button class="b p" onclick="book()">Book call</button></div>${l.meeting?`<p>Booked: <b>${fd(l.meeting)}</b></p><div class="row"><a class="b" target="_blank" rel="noopener" href="${gcal(l)}">Add to Google Calendar</a></div><p style="color:var(--mu);font-size:13px">Reminders at 1 day, 1 hour and 10 minutes before are created as tasks. A server can send these automatically.</p>`:''}`;
+ if(S.dt=='wa')b=`<p>Tap a template. WhatsApp opens with the message ready to send.</p>${[['welcome','Welcome message'],['book','Booking link'],['remind','Call reminder'],['follow','Proposal follow-up']].map(a=>`<div class="row"><a class="b" target="_blank" rel="noopener" href="${wam(l,a[0])}" onclick="log(find('${l.id}'),'WhatsApp: ${a[1]}');save()">${a[1]}</a></div>`).join('')}`;
+ if(S.dt=='iv')b=`<label>Plan</label><div class="row"><select id="pl" style="flex:1">${Object.keys(PLANS).map(p=>`<option>${p}</option>`).join('')}</select><label style="margin:0"><input type="checkbox" id="gs" style="width:auto" checked> GST 18%</label><button class="b p" onclick="mkInv()">Create invoice</button></div>${l.invoices.map((v,i)=>`<div class="li"><b>${esc(v.no)} · ${esc(v.plan)}</b><small>Total ${inr(v.total)}${v.gst?' incl. GST':''} · ${v.paid?'Paid':'Unpaid'}</small><div class="row">${v.paid?'':`<button class="b s" onclick="pay('${l.id}',${i})">Mark paid</button>`}<a class="b s" target="_blank" rel="noopener" href="https://wa.me/91${l.phone.replace(/\D/g,'').slice(-10)}?text=${encodeURIComponent('Invoice '+v.no+' for '+v.plan+': '+inr(v.total)+'. Tatva Consulting')}">Send on WhatsApp</a></div></div>`).join('')}`;
+ if(S.dt=='tl')b=l.log.map(x=>`<div class="li">${esc(x.t)}<small>${fd(x.at)}</small></div>`).join('');
+ $('pn').innerHTML=`<div class="row"><div><b style="font-size:17px">${esc(l.name)}</b><div style="color:var(--mu)">${esc(l.inst)}${l.city?', '+esc(l.city):''}</div></div><button class="b s" style="margin-left:auto" onclick="closeD()">Close</button></div><div class="tabs">${T.map(t=>`<button class="nb ${S.dt==t[0]?'on':''}" onclick="S.dt='${t[0]}';render()">${t[1]}</button>`).join('')}</div>${b}`}
+function newT(){const l=find(S.open),t=$('tt').value.trim();if(!t)return;addTask(l,t,+$('th').value);save();render()}
+function book(){const l=find(S.open),v=$('mtv').value;if(!v){toast('Pick a date and time');return}l.meeting=v;l.tasks=l.tasks.filter(t=>!/^Send call reminder/.test(t.t)||t.done);log(l,'Call booked for '+fd(v));const ms=new Date(v).getTime();[[864e5,'1 day'],[36e5,'1 hour'],[6e5,'10 minutes']].filter(a=>ms-a[0]>Date.now()).forEach(a=>l.tasks.push({t:'Send call reminder ('+a[1]+' before)',due:new Date(ms-a[0]).toISOString(),done:false}));if(l.stage<2)setStage(l,2,true);save();render()}
+function mkInv(){const l=find(S.open),p=$('pl').value,g=$('gs').checked,a=PLANS[p],t=g?Math.round(a*1.18):a;l.invoices.push({no:'TC-'+String(Date.now()).slice(-6),plan:p,amt:a,gst:g,total:t,paid:false});log(l,'Invoice created: '+p+' '+inr(t));if(l.stage<5)setStage(l,5,true);save();render()}
+function pay(id,i){const l=find(id);l.invoices[i].paid=true;log(l,'Payment received '+inr(l.invoices[i].total));setStage(l,6,true);save();render()}
+load();render();
+</script></body></html>
